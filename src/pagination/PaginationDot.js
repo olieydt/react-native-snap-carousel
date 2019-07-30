@@ -26,7 +26,7 @@ export default class PaginationDot extends PureComponent {
             animColor: new Animated.Value(0),
             animOpacity: new Animated.Value(0),
             animTransform: new Animated.Value(0),
-            oldprops: props
+            props
         };
     }
 
@@ -38,7 +38,7 @@ export default class PaginationDot extends PureComponent {
 
     componentDidUpdate(prevProps, prevState){
         if (prevProps.active !== this.props.active) {
-            this._animate(prevProps.active ? 1 : 0);
+            this._animate(this.props.active ? 1 : 0);
         }
     }
 
