@@ -214,7 +214,7 @@ export default class Carousel extends Component {
 
     componentDidUpdate(prevProps, prevState){
         let nextProps = this.props;
-        const { interpolators } = this.state;
+        const { interpolators } = prevState;
         const { firstItem, itemHeight, itemWidth, scrollEnabled, sliderHeight, sliderWidth } = nextProps;
         const itemsLength = this._getCustomDataLength(nextProps);
 
