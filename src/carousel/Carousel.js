@@ -107,8 +107,7 @@ export default class Carousel extends Component {
 
         this.state = {
             hideCarousel: true,
-            interpolators: [],
-            props: props
+            interpolators: []
         };
 
         // The following values are not stored in the state because 'setState()' is asynchronous
@@ -267,11 +266,6 @@ export default class Carousel extends Component {
         if (nextProps.onScroll !== prevProps.onScroll) {
           this._setScrollHandler(nextProps);
         }
-    }
-
-    static getDerivedStateFromProps(props, currentState) {
-        currentState.props = props
-        return currentState
     }
 
     componentWillUnmount () {
