@@ -107,7 +107,8 @@ export default class Carousel extends Component {
 
         this.state = {
             hideCarousel: true,
-            interpolators: []
+            interpolators: [],
+            props: props
         };
 
         // The following values are not stored in the state because 'setState()' is asynchronous
@@ -211,7 +212,8 @@ export default class Carousel extends Component {
         }
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentDidUpdate(prevProps, prevState){
+        let nextProps = this.props;
         const { interpolators } = this.state;
         const { firstItem, itemHeight, itemWidth, scrollEnabled, sliderHeight, sliderWidth } = nextProps;
         const itemsLength = this._getCustomDataLength(nextProps);
@@ -223,11 +225,11 @@ export default class Carousel extends Component {
         const nextFirstItem = this._getFirstItem(firstItem, nextProps);
         let nextActiveItem = this._activeItem || this._activeItem === 0 ? this._activeItem : nextFirstItem;
 
-        const hasNewSliderWidth = sliderWidth && sliderWidth !== this.props.sliderWidth;
-        const hasNewSliderHeight = sliderHeight && sliderHeight !== this.props.sliderHeight;
-        const hasNewItemWidth = itemWidth && itemWidth !== this.props.itemWidth;
-        const hasNewItemHeight = itemHeight && itemHeight !== this.props.itemHeight;
-        const hasNewScrollEnabled = scrollEnabled !== this.props.scrollEnabled;
+        const hasNewSliderWidth = sliderWidth && sliderWidth !== prevProps.sliderWidth;
+        const hasNewSliderHeight = sliderHeight && sliderHeight !== prevProps.sliderHeight;
+        const hasNewItemWidth = itemWidth && itemWidth !== prevProps.itemWidth;
+        const hasNewItemHeight = itemHeight && itemHeight !== prevProps.itemHeight;
+        const hasNewScrollEnabled = scrollEnabled !== prevProps.scrollEnabled;
 
         // Prevent issues with dynamically removed items
         if (nextActiveItem > itemsLength - 1) {
@@ -262,9 +264,14 @@ export default class Carousel extends Component {
             this._snapToItem(nextFirstItem, false, true, false, false);
         }
 
-        if (nextProps.onScroll !== this.props.onScroll) {
+        if (nextProps.onScroll !== prevProps.onScroll) {
           this._setScrollHandler(nextProps);
         }
+    }
+
+    static getDerivedStateFromProps(props, currentState) {
+        currentState.props = props
+        return currentState
     }
 
     componentWillUnmount () {
